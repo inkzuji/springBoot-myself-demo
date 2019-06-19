@@ -3,6 +3,7 @@ package com.zuji.service;
 import com.zuji.pojo.SysJobVo;
 import com.zuji.task.CronTaskRegistrar;
 import com.zuji.task.SchedulingRunnable;
+import com.zuji.utils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,6 +110,13 @@ public class SysTaskServiceImpl implements ISysTaskService {
         }
 
         // 处理数据 插入数据库
+        for (SysJobVo sysJobVo : jobList) {
+            Integer jobId = sysJobVo.getJobId();
+            if (Objects.equals(jobId,jobVo.getJobId())) {
+                BeanUtils.copyPropertiesIgnoreNullValue(jobVo, sysJobVo);
+                break;
+            }
+        }
 
         // 判断 原来的定时任务是否开启，如果开启，则先停止
         if (Objects.equals(existJob.getJobStatus(), 0)) {
@@ -124,14 +132,28 @@ public class SysTaskServiceImpl implements ISysTaskService {
     /**
      * 删除定时任务
      *
-     * @param jobVo
+     * @param jobId
      */
     @Override
-    public void deleteTask(SysJobVo jobVo) {
+    public void deleteTask(Integer jobId) {
         // 获取数据库中已存在的数据
-        SysJobVo existJob = new SysJobVo();
+        SysJobVo existJob = jobList.stream()
+                .filter(s -> Objects.equals(jobId, s.getJobId()))
+                .findFirst().orElse(null);
+        if (existJob == null) {
+            return;
+        }
 
         // 处理数据 插入数据库
+        for (int i = 0; i < jobList.size(); i++) {
+            Integer jobId2 = jobList.get(i).getJobId();
+            if (Objects.equals(jobId2,jobId)) {
+                jobList.remove(i);
+                break;
+            }
+        }
+        for (SysJobVo sysJobVo : jobList) {
+        }
 
         // 判断定时任务是否开启
         if (Objects.equals(existJob.getJobStatus(), 0)) {

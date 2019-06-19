@@ -34,7 +34,7 @@ public interface ISysTaskService {
     /**
      * 删除定时任务
      *
-     * @param jobVo
+     * @param jobId
      */
-    void deleteTask(SysJobVo jobVo);
+    void deleteTask(Integer jobId);
 }
