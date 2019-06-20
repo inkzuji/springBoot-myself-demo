@@ -109,6 +109,11 @@ public class SysTaskServiceImpl implements ISysTaskService {
             return;
         }
 
+        // 判断 原来的定时任务是否开启，如果开启，则先停止
+        if (Objects.equals(existJob.getJobStatus(), 0)) {
+            this.changeTaskStatus(Boolean.FALSE, existJob);
+        }
+
         // 处理数据 插入数据库
         for (SysJobVo sysJobVo : jobList) {
             Integer jobId = sysJobVo.getJobId();
@@ -118,13 +123,8 @@ public class SysTaskServiceImpl implements ISysTaskService {
             }
         }
 
-        // 判断 原来的定时任务是否开启，如果开启，则先停止
-        if (Objects.equals(existJob.getJobStatus(), 0)) {
-            this.changeTaskStatus(Boolean.FALSE, existJob);
-        }
-
         // 判断定时任务是否开启
-        if (Objects.equals(existJob.getJobStatus(), 0)) {
+        if (Objects.equals(jobVo.getJobStatus(), 0)) {
             this.changeTaskStatus(Boolean.TRUE, jobVo);
         }
     }
@@ -144,6 +144,11 @@ public class SysTaskServiceImpl implements ISysTaskService {
             return;
         }
 
+        // 判断定时任务是否开启
+        if (Objects.equals(existJob.getJobStatus(), 0)) {
+            this.changeTaskStatus(Boolean.FALSE, existJob);
+        }
+
         // 处理数据 插入数据库
         for (int i = 0; i < jobList.size(); i++) {
             Integer jobId2 = jobList.get(i).getJobId();
@@ -151,13 +156,6 @@ public class SysTaskServiceImpl implements ISysTaskService {
                 jobList.remove(i);
                 break;
             }
-        }
-        for (SysJobVo sysJobVo : jobList) {
-        }
-
-        // 判断定时任务是否开启
-        if (Objects.equals(existJob.getJobStatus(), 0)) {
-            this.changeTaskStatus(Boolean.FALSE, existJob);
         }
     }
 

@@ -19,20 +19,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class CronTaskRegistrar implements DisposableBean {
 
+    /**
+     * 存放定时任务
+     */
     private final Map<Runnable, ScheduledTask> scheduledTaskMap = new ConcurrentHashMap<>();
 
     @Autowired
     private TaskScheduler taskScheduler;
 
-    public TaskScheduler getTaskScheduler() {
-        return this.taskScheduler;
-    }
-
     /**
      * 添加定时任务类
      *
      * @param task
-     * @param cronExpression
+     * @param cronExpression cron表达式
      */
     public void addCronTask(Runnable task, String cronExpression) {
         addCronTask(new CronTask(task, cronExpression));

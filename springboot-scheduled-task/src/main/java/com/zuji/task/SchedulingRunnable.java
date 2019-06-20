@@ -51,7 +51,10 @@ public class SchedulingRunnable implements Runnable {
         long startTime = System.currentTimeMillis();
 
         try {
+            // 获取到bean
             Object target = SpringContextUtil.getBean(beanName);
+
+            // 获取到bean里面的方法
             Method method = null;
             if (isBlank(params)) {
                 method = target.getClass().getDeclaredMethod(methodName);
