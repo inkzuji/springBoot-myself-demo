@@ -45,7 +45,7 @@ public class SchedulingRunnable implements Runnable {
 
     @Override
     public void run() {
-        log.info("定时任务开始执：beanName:{},methodName:{},params:{}", beanName, methodName, params);
+        log.info("定时任务开始执行：beanName:{},methodName:{},params:{}", beanName, methodName, params);
 
         // 开始执行时间
         long startTime = System.currentTimeMillis();
