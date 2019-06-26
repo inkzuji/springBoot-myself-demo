@@ -14,7 +14,7 @@
 
         <!--数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://116.62.138.222:3306/dxyl_pumian"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/zuji"
                         userId="root"
                         password="dxyl123456">
             <property name="useInformationSchema" value="true"/>
